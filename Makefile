@@ -1,40 +1,22 @@
-PROJECT    := github.com/andrazk
-APP        := tenerife
-RELEASE    ?= 0.0.1
-GIT_COMMIT := $(shell git rev-parse --short HEAD | sed -E 's/[^a-zA-Z0-9]+/-/g')
-GIT_BRANCH := $(shell git rev-parse --abbrev-ref HEAD)
-BUILD_TIME := $(shell date -u +%Y-%m-%dT%H:%M:%SZ)
-LDFLAGS    := -ldflags " \
-	-X $(APP)/internal/diagnostics.revision=$(GIT_COMMIT) \
-	-X $(APP)/internal/diagnostics.buildTime=$(BUILD_TIME) \
-	-X $(APP)/internal/diagnostics.branch=$(GIT_BRANCH) \
-"
+GOOS?=linux
+GOARCH?=amd64
 
-.DEFAULT_GOAL := help
-.PHONY: help
-help: ## Show help
-	@echo "\nUsage:\n  make \033[36m<target>\033[0m\n\nTargets:"
-	@grep -E '^[a-zA-Z_/%\-]+:.*?## .*$$' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "  \033[36m%-18s\033[0m %s\n", $$1, $$2}'
+PROJECT?=github.com/andrazk/tenerife
+BUILD_PATH?=cmd/tenerife
+APP?=tenerife
 
-dist: ## Build an executable
-	CGO_ENABLED=0 go build \
-		$(LDFLAGS) \
-		-mod=vendor \
-		-o ./bin/$(APP) \
-		$(PROJECT)/$(APP)/cmd/$(APP)
+# Current version
+RELEASE?=0.0.1
 
-run: ## Run the executable
-	./bin/$(APP)
+# Parameters to push images and release app to Kubernetes or try it with Docker
+REGISTRY?=docker.io/andrazk
+NAMESPACE?=andrazk
+CONTAINER_NAME?=${NAMESPACE}-${APP}
+CONTAINER_IMAGE?=${REGISTRY}/${CONTAINER_NAME}
+VALUES?=values
 
-test: ## Run tests
-	go test -v -race -cover ./...
+build:
+	docker build -t $(CONTAINER_IMAGE):$(RELEASE) .
 
-docker/build: ## Build deployable container
-	docker build -t $(APP):$(RELEASE) .
-
-docker/run: ## Run deployable container
-	docker run \
-		--rm -ti \
-		-p 8080:8080 \
-		-p 9090:9090 \
-		$(APP)
+push: build
+	docker push $(CONTAINER_IMAGE):$(RELEASE)
