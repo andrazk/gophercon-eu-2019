@@ -1,8 +1,15 @@
 package handler
 
-import "net/http"
+import (
+	"net/http"
+
+	"github.com/sirupsen/logrus"
+)
 
 // HolaHandler writes Hola in response
-func HolaHandler(w http.ResponseWriter, req *http.Request) {
-	w.Write([]byte("Hola!"))
+func HolaHandler(logger *logrus.Logger) http.HandlerFunc {
+	return func(w http.ResponseWriter, req *http.Request) {
+		logger.Info("Say hello in spanish")
+		w.Write([]byte("Hola!"))
+	}
 }
