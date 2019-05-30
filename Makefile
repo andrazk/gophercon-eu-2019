@@ -1,5 +1,6 @@
 PROJECT    := github.com/andrazk
 APP        := tenerife
+RELEASE    ?= 0.0.1
 GIT_COMMIT := $(shell git rev-parse --short HEAD | sed -E 's/[^a-zA-Z0-9]+/-/g')
 GIT_BRANCH := $(shell git rev-parse --abbrev-ref HEAD)
 BUILD_TIME := $(shell date -u +%Y-%m-%dT%H:%M:%SZ)
@@ -29,7 +30,7 @@ test: ## Run tests
 	go test -v -race -cover ./...
 
 docker/build: ## Build deployable container
-	docker build -t $(APP) .
+	docker build -t $(APP):$(RELEASE) .
 
 docker/run: ## Run deployable container
 	docker run \
