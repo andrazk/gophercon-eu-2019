@@ -2,7 +2,7 @@ FROM golang:1.12.5-stretch as builder
 
 COPY . /app
 
-RUN cd /app && make build
+RUN cd /app && make dist
 
 RUN useradd -u 1001 tenerife
 
