@@ -7,7 +7,7 @@ import (
 
 	"github.com/gorilla/mux"
 
-	"tenerife/internal"
+	"tenerife/internal/handler"
 )
 
 func main() {
@@ -15,7 +15,7 @@ func main() {
 	port := os.Getenv("PORT")
 
 	r := mux.NewRouter()
-	r.HandleFunc("/hola", http.HandlerFunc(internal.HolaHandler))
+	r.HandleFunc("/hola", http.HandlerFunc(handler.HolaHandler))
 
 	server := http.Server{
 		Addr:    net.JoinHostPort(host, port),
