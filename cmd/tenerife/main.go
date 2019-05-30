@@ -13,8 +13,8 @@ import (
 	"github.com/peterbourgon/ff"
 	"github.com/sirupsen/logrus"
 
-	"tenerife/internal/application"
-	"tenerife/internal/diagnostics"
+	"github.com/andrazk/tenerife/internal/application"
+	"github.com/andrazk/tenerife/internal/diagnostics"
 )
 
 func main() {

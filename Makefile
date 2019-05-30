@@ -1,3 +1,4 @@
+PROJECT    := github.com/andrazk
 APP        := tenerife
 GIT_COMMIT := $(shell git rev-parse --short HEAD | sed -E 's/[^a-zA-Z0-9]+/-/g')
 GIT_BRANCH := $(shell git rev-parse --abbrev-ref HEAD)
@@ -19,7 +20,7 @@ build: ## Build an executable
 		$(LDFLAGS) \
 		-mod=vendor \
 		-o ./bin/$(APP) \
-		$(APP)/cmd/$(APP)
+		$(PROJECT)/$(APP)/cmd/$(APP)
 
 run: ## Run the executable
 	./bin/$(APP)

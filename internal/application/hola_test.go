@@ -6,7 +6,7 @@ import (
 	"net/http/httptest"
 	"testing"
 
-	"tenerife/internal/application"
+	"github.com/andrazk/tenerife/internal/application"
 
 	"github.com/sirupsen/logrus"
 )

@@ -1,4 +1,4 @@
-module tenerife
+module github.com/andrazk/tenerife
 
 go 1.12
 
