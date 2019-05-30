@@ -87,8 +87,8 @@ func main() {
 		case syscall.SIGTERM:
 			logger.Print("Got SIGTERM...")
 		}
-	case <-shutdown:
-		logger.Printf("Got an error...")
+	case err := <-shutdown:
+		logger.Errorf("Got an error %v", err)
 	}
 
 	logger.Info("Application server is stopping")

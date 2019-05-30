@@ -26,3 +26,13 @@ run: ## Run the executable
 
 test: ## Run tests
 	go test -v -race -cover ./...
+
+docker/build: ## Build deployable container
+	docker build -t $(APP) .
+
+docker/run: ## Run deployable container
+	docker run \
+		--rm -ti \
+		-p 8080:8080 \
+		-p 9090:9090 \
+		$(APP)
