@@ -2,7 +2,17 @@ FROM golang:1.12.5-stretch as builder
 
 COPY . /app
 
-RUN cd /app && make dist
+WORKDIR /app
+
+ENV PROJECT github.com/andrazk/tenerife
+
+RUN CGO_ENABLED=0 go build \
+		-ldflags " \
+	        -X ${PROJECT}/internal/diagnostics.revision=${COMMIT} \
+            -X ${PROJECT}/internal/diagnostics.buildTime=${BUILD_TIME}" \
+		-mod=vendor \
+		-o ./bin/tenerife \
+		${PROJECT}/cmd/tenerife
 
 RUN useradd -u 1001 tenerife
 
