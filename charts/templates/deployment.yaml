@@ -27,10 +27,10 @@ spec:
             - name: TENERIFE_PORT
               value: "{{ .Values.service.port }}"
             - name: TENERIFE_DIAGNOSTICS_PORT
-              value: "{{ .Values.service.internalPort }}"
+              value: {{ .Values.service.internalPort }}
           ports:
             - name: http
-              containerPort: "{{ .Values.service.internalPort }}"
+              containerPort: {{ .Values.service.internalPort }}
               protocol: TCP
           livenessProbe:
             httpGet:
