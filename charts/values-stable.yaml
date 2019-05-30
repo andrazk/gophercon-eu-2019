@@ -1,0 +1,25 @@
+ingress:
+  ## If true, Ingress will be created
+  ##
+  enabled: true
+
+  ## Prefix for API (Example: /api/v1/)
+  ##
+  prefix: /
+
+  ## Ingress path feature allow access to service through path
+  ## example: https://hostname/namespace/servicename
+  ## Must be provided if Ingress is enabled
+  ##
+  pathBased:
+    hosts:
+    - services.k8s.community
+
+    ## Ingress TLS configuration
+    ## Secrets must be manually created in the namespace
+    ## except of case when annotatoon `kubernetes.io/tls-acme: 'true'` is present
+    ##
+    tls:
+    - secretName: tls-secret
+      hosts:
+      - services.k8s.community
